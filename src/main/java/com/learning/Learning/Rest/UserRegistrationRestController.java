@@ -1,6 +1,5 @@
 package com.learning.Learning.Rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,8 +26,8 @@ public class UserRegistrationRestController {
 	}
 	
 	@GetMapping("/")
-	public ResponseEntity<List<UserDTO>> listAllUsers(){
-		return null;
-		
+	public ResponseEntity<List<UserDTO>> listAllUsers() {
+		List<UserDTO> users = userJpaRepository.findAll();
+		return new ResponseEntity<List<UserDTO>>(users,HttpStatus.OK );
 	}
 }
