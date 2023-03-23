@@ -28,12 +28,7 @@ public class UserRegistrationRestController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<UserDTO>> listAllUsers(){
-		List<UserDTO> users = new ArrayList<UserDTO>();
-		try {
-			users = UserJpaRepository.findAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
+		return null;
+		
 	}
 }
