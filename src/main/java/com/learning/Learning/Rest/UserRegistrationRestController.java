@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learning.Learning.Exception.CustomErrorType;
 import com.learning.Learning.dto.UserDTO;
 import com.learning.Learning.repository.UserJpaRepository;
 
