@@ -47,6 +47,10 @@ public class UserRegistrationRestController {
 	@GetMapping("/{name}")
 	public ResponseEntity<UserDTO> getUserById(@PathVariable("name") final String name){
 		UserDTO user = userJpaRepository.findByName(name);
+		if(user==null) {
+			return new ResponseEntity<UserDTO>(
+					new CustomErrorType("User with name "+ name+ " not found"), HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 	/*
