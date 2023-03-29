@@ -1,8 +1,6 @@
 package com.learning.Learning.Rest;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,46 +30,63 @@ public class UserRegistrationRestController {
 	public void setUserJpaRepository(UserJpaRepository userJpaRepository) {
 		this.userJpaRepository = userJpaRepository;
 	}
-	
+
 	@GetMapping("/")
 	public ResponseEntity<List<UserDTO>> listAllUsers() {
 		List<UserDTO> users = userJpaRepository.findAll();
-		return new ResponseEntity<List<UserDTO>>(users,HttpStatus.OK );
+		if (users.isEmpty()) {
+			return new ResponseEntity<List<UserDTO>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
 	}
-	
-	@PostMapping(value ="/", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
+
+	@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
+		if (userJpaRepository.findByName(user.getName()) != null) {
+			return new ResponseEntity<UserDTO>(
+					new CustomErrorType(
+							"Unable to create new user. A User with name " + user.getName() + " already exist."),
+					HttpStatus.CONFLICT);
+		}
 		userJpaRepository.save(user);
 		return new ResponseEntity<UserDTO>(user, HttpStatus.CREATED);
 	}
-	
-	@GetMapping("/{name}")
-	public ResponseEntity<UserDTO> getUserById(@PathVariable("name") final String name){
-		UserDTO user = userJpaRepository.findByName(name);
-		if(user==null) {
-			return new ResponseEntity<UserDTO>(
-					new CustomErrorType("User with name "+ name+ " not found"), HttpStatus.NOT_FOUND);
+
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDTO> getUserById(@PathVariable("id") final Long id) {
+		UserDTO user = userJpaRepository.findById(id).get();
+		if (user == null) {
+			return new ResponseEntity<UserDTO>(new CustomErrorType("User with id " + id + " not found"),
+					HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
-	
-	@PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody UserDTO user){
+
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody UserDTO user) {
 		UserDTO currentuser = userJpaRepository.findById(id).get();
-		
+		if (currentuser == null) {
+			return new ResponseEntity<UserDTO>(
+					new CustomErrorType("Unable to upate. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
+		}
 		currentuser.setName(user.getName());
 		currentuser.setAddress(user.getAddress());
 		currentuser.setEmail(user.getEmail());
-		
+
 		userJpaRepository.saveAndFlush(currentuser);
-		
+
 		return new ResponseEntity<UserDTO>(currentuser, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") final Long id){
-		userJpaRepository.deleteById(id);
+	public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") final Long id) {
+		UserDTO currentUser = userJpaRepository.findById(id).get();
+		if (currentUser == null) {
+			return new ResponseEntity<UserDTO>(
+					new CustomErrorType("Unable to upate. User with id " + id + " not found."), HttpStatus.NOT_FOUND);
+		}
+		userJpaRepository.delete(currentUser);
 		return new ResponseEntity<UserDTO>(HttpStatus.NO_CONTENT);
 	}
-	
+
 }
