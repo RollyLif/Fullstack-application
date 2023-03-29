@@ -54,10 +54,10 @@ public class UserRegistrationRestController {
 		}
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
-	/*
+	
 	@PutMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody UserDTO user){
-		UserDTO currentuser = userJpaRepository.findById(id);
+		UserDTO currentuser = userJpaRepository.findById(id).get();
 		
 		currentuser.setName(user.getName());
 		currentuser.setAddress(user.getAddress());
@@ -67,7 +67,7 @@ public class UserRegistrationRestController {
 		
 		return new ResponseEntity<UserDTO>(currentuser, HttpStatus.OK);
 	}
-	*/
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<UserDTO> deleteUser(@PathVariable("id") final Long id){
 		userJpaRepository.deleteById(id);
