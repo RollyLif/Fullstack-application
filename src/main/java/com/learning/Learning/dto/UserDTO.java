@@ -24,18 +24,18 @@ public class UserDTO {
 	@Column(name= "USER_ID")
 	private Long id;
 	
-	@NotBlank
+	@NotBlank(message = "name is mandatory")
 	@Length(max=50)
 	@Column(name="NAME")
 	private String name;
 	
-	@NotBlank
+	@NotBlank(message = "adress is mandatory")
 	@Length(max=150)
 	@Column(name="ADRESS")
 	private String address;
 	
 	@Email
-	@NotBlank
+	@NotBlank(message = "email is mandatory")
 	@Length(max =80)
 	@Column(name="EMAIL")
 	private String email;
