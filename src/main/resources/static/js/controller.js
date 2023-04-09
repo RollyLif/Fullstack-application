@@ -3,7 +3,7 @@ app.controller('registerUserControlller', function($scope, $http, $location, $ro
 		$http({
 				method : 'POST',
 				url : 'http://localhost:8080/api/user',
-				data ; $scope.user,
+				data : $scope.user,
 		}).then(function(response){
 				$location.path("/list-all-users");
 				$route.reload();
