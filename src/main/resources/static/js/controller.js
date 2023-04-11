@@ -1,5 +1,5 @@
-app.controller('registerUserControlller', function($scope, $http, $location, $route)){
-	$scope.submitUserForm= function(){
+app.controller('registerUserController', function($scope, $http, $location, $route){
+	$scope.submitUserForm()= function(){
 		$http({
 				method : 'POST',
 				url : 'http://localhost:8080/api/user',
@@ -17,7 +17,7 @@ app.controller('registerUserControlller', function($scope, $http, $location, $ro
 	};
 });
 
-app.controler('listUserController', function($scope, $http, $location, $route){
+app.controller('listUserController', function($scope, $http, $location, $route){
 		$http({
 				method : 'GET',
 				url : 'http://localhost:8080/api/user/'

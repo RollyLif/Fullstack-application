@@ -4,8 +4,7 @@ package com.learning.Learning.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,19 +24,16 @@ public class UserDTO {
 	@Column(name= "USER_ID")
 	private Long id;
 	
-	@NotBlank(message = "name is mandatory")
-	@Length(max=50)
+	@NotNull(message = "name is mandatory")
 	@Column(name="NAME")
 	private String name;
 	
-	@NotBlank(message = "adress is mandatory")
-	@Length(max=150)
+	@NotNull(message = "adress is mandatory")
 	@Column(name="ADRESS")
 	private String address;
 	
 	@Email
 	@NotBlank(message = "email is mandatory")
-	@Length(max =80)
 	@Column(name="EMAIL")
 	private String email;
 	

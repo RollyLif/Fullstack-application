@@ -2,6 +2,8 @@ package com.learning.Learning.Rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class UserRegistrationRestController {
 	}
 
 	@PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user) {
+	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO user) {
 		if (userJpaRepository.findByName(user.getName()) != null) {
 			return new ResponseEntity<UserDTO>(
 					new CustomErrorType(
@@ -64,7 +66,7 @@ public class UserRegistrationRestController {
 	}
 
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody UserDTO user) {
+	public ResponseEntity<UserDTO> updateUser(@PathVariable("id") final Long id, @RequestBody @Valid UserDTO user) {
 		UserDTO currentuser = userJpaRepository.findById(id).get();
 		if (currentuser == null) {
 			return new ResponseEntity<UserDTO>(
