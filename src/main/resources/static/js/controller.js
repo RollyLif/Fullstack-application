@@ -43,19 +43,18 @@ app.controller('listUserController', function($scope, $http, $location, $route){
 });
 
 app.controller('usersDetailsController', function($scope, $http, $location, $routeParams, $route){
-		$scope.userId =$routeParams.id;
 		
 		$http({
 			method : 'GET',
-			url : 'http:'+ $scope.userId
+			url : 'http://localhost:8080/api/user/'+ $routeParams.id
 		}).then(function(response){
 			$scope.user = response.data;
 		});
 		
 		$scope.submitUserForm =function(){
 			$http({
-				method : 'POST',
-				url : 'http://localhost:8080/api/user',
+				method : 'PUT',
+				url : 'http://localhost:8080/api/user/'+ $routeParams.id,
 				data : $scope.user,
 			})
 				.then(
