@@ -1,14 +1,14 @@
 app.controller('registerUserController', function($scope, $http, $location, $route){
-	$scope.submitUserForm()= function(){
+	$scope.submitUserForm = function(){
 		$http({
-				method : 'POST',
-				url : 'http://localhost:8080/api/user',
+				method :'POST',
+				url : 'http://localhost:8080/api/user/',
 				data : $scope.user,
 		}).then(function(response){
 				$location.path("/list-all-users");
 				$route.reload();
 		}, function(errResponse){
-				$scope.errorMessage = errResponse.data.erorMessage;
+				$scope.errorMessage = errResponse.data.errorMessage;
 		});
 	}
 	
@@ -28,10 +28,10 @@ app.controller('listUserController', function($scope, $http, $location, $route){
 		$scope.editUser = function(userId) {
 				$location.path("/update-user/"+userId);
 		}
-		$scope.deleteUser =function(userId) {
+		$scope.deleteUser = function(userId) {
 				$http({
 						method :'DELETE',
-						url : 'http://localhost:8080/api/user'+userId
+						url : 'http://localhost:8080/api/user/'+userId
 				})
 				.then(
 						function(response) {
@@ -47,7 +47,7 @@ app.controller('usersDetailsController', function($scope, $http, $location, $rou
 		
 		$http({
 			method : 'GET',
-			url : 'http:localhost:8080/api/user/'+ $scope.userId
+			url : 'http:'+ $scope.userId
 		}).then(function(response){
 			$scope.user = response.data;
 		});
