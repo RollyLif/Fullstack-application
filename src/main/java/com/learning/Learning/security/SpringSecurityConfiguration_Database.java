@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration_Database {
-	
+	/*
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
@@ -21,7 +21,7 @@ public class SpringSecurityConfiguration_Database {
 	
 	
 	@Bean
-	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+	public SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
@@ -30,7 +30,6 @@ public class SpringSecurityConfiguration_Database {
 						.anyRequest().authenticated()
 						)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.httpBasic(Customizer.withDefaults())
 				.build();
-	}
+	} */
 }
