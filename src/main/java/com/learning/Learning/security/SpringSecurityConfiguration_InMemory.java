@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfiguration_InMemory{
 
 	@Bean
-	public InMemoryUserDetailsManager userDetailsManager() {
+	protected InMemoryUserDetailsManager userDetailsManager() {
 		UserDetails user = User.withDefaultPasswordEncoder()
 				.username("user")
 				.password("password")
@@ -35,7 +35,7 @@ public class SpringSecurityConfiguration_InMemory{
 	}
 	
 	@Bean
-	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+	protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth ->{
 					auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("USER");
