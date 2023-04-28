@@ -35,7 +35,7 @@ public class SpringSecurityConfiguration_InMemory{
 	}
 	
 	@Bean
-	protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth ->{
 					auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("USER");
