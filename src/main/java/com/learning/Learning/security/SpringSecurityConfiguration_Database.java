@@ -29,7 +29,7 @@ import com.learning.Learning.Service.UserInfoDetailsService;
 @EnableMethodSecurity
 public class SpringSecurityConfiguration_Database {
 	
-	@Bean
+	//@Bean
 	public EmbeddedDatabase datasource() {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.H2)
@@ -38,7 +38,7 @@ public class SpringSecurityConfiguration_Database {
 				.build(); 
 	}
 	
-	@Bean
+	//@Bean
 	public UserDetailsManager users(DataSource datasource) {
 		UserDetails user = User.withDefaultPasswordEncoder()
 				.username("user")
@@ -58,14 +58,14 @@ public class SpringSecurityConfiguration_Database {
 		return users;
 	}
 	
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	//@Bean
+	/*SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
 				.authorizeRequests( auth -> auth
 						.requestMatchers("/h2-console/**").permitAll()
 						.anyRequest().authenticated())
 				.headers(headers -> headers.frameOptions().sameOrigin())
-				.formLogin(withDefaults())
+				.formLogin()
 				.build();
-	}
+	}*/
 }

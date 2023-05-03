@@ -15,11 +15,11 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="Users")
+@Table(name="Person")
 public class UserDTO {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name= "USER_ID")
 	private Long id;
 	
@@ -27,7 +27,7 @@ public class UserDTO {
 	@Column(name="NAME")
 	private String name;
 	
-	@NotNull(message = "adress is mandatory")
+	@NotNull(message = "address is mandatory")
 	@Column(name="ADRESS")
 	private String address;
 	
