@@ -29,43 +29,4 @@ import com.learning.Learning.Service.UserInfoDetailsService;
 @EnableMethodSecurity
 public class SpringSecurityConfiguration_Database {
 	
-	//@Bean
-	public EmbeddedDatabase datasource() {
-		return new EmbeddedDatabaseBuilder()
-				.setType(EmbeddedDatabaseType.H2)
-				.setName("dashboard")
-				.addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
-				.build(); 
-	}
-	
-	//@Bean
-	public UserDetailsManager users(DataSource datasource) {
-		UserDetails user = User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
-				.roles("USER")
-				.build();
-		
-		UserDetails admin = User.withDefaultPasswordEncoder()
-				.username("admin")
-				.password("password")
-				.roles("ADMIN","USER")
-				.build();
-		
-		JdbcUserDetailsManager users = new JdbcUserDetailsManager(datasource);
-		users.createUser(user);
-		users.createUser(admin);
-		return users;
-	}
-	
-	//@Bean
-	/*SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
-				.authorizeRequests( auth -> auth
-						.requestMatchers("/h2-console/**").permitAll()
-						.anyRequest().authenticated())
-				.headers(headers -> headers.frameOptions().sameOrigin())
-				.formLogin()
-				.build();
-	}*/
 }
