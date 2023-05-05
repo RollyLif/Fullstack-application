@@ -18,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,4 +31,21 @@ import com.learning.Learning.Service.UserInfoDetailsService;
 @EnableMethodSecurity
 public class SpringSecurityConfiguration_Database {
 	
+	private UserInfoDetailsService userInfoDetailsService;
+	
+	@Autowired
+	public SpringSecurityConfiguration_Database(UserInfoDetailsService userInfoDetailsService) {
+		this.userInfoDetailsService =userInfoDetailsService;
+	}
+	
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+	
+	@Bean
+	PasswordEncoder passwordEncorder() {
+		return new BCryptPasswordEncoder();
+	}
 }
