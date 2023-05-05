@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +31,7 @@ public class UserInfoDetailsService implements UserDetailsService{
 					"Opps! user not found with user-name: "+ username);
 		}
 		
-		return new org.springframework.security.core.userdetails.User(
+		return new User(
 				user.getUsername(), user.getPassword(), getAuthorities(user));
 	}
 
