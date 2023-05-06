@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +37,11 @@ public class SpringSecurityConfiguration_Database {
 	@Autowired
 	public SpringSecurityConfiguration_Database(UserInfoDetailsService userInfoDetailsService) {
 		this.userInfoDetailsService =userInfoDetailsService;
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new UserInfoDetailsService();
 	}
 	
 	
