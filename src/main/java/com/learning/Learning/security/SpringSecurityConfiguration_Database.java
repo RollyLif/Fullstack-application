@@ -51,6 +51,15 @@ public class SpringSecurityConfiguration_Database {
 	}
 	
 	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.csrf().disable()
+				.authorizeHttpRequests()
+				.requestMatchers("/#/").permitAll()
+				.and()
+				.formLogin().and().build();
+	}
+	
+	@Bean
 	PasswordEncoder passwordEncorder() {
 		return new BCryptPasswordEncoder();
 	}
