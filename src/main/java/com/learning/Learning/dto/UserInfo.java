@@ -12,14 +12,14 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="userinfo")
+@Table(name="users")
 @Data
 public class UserInfo {
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "userid")
-	private Long id;
+	private int id;
 	
 	@Column(name = "username")
 	@NotEmpty
