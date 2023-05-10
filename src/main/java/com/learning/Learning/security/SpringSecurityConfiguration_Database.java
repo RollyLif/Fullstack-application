@@ -54,7 +54,7 @@ public class SpringSecurityConfiguration_Database {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/#/").permitAll()
+				.requestMatchers("/api/user/**").permitAll()
 				.and()
 				.formLogin().and().build();
 	}
