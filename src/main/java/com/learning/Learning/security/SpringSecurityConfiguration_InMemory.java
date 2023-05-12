@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -37,14 +35,13 @@ public class SpringSecurityConfiguration_InMemory{
 	
 	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(auth ->{
-					auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("USER");
-					auth.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("USER");
-					auth.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("USER");
-					auth.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN");
-				})
-				.httpBasic(Customizer.withDefaults())
-				.build();
+		return http.csrf().disable()
+				.authorizeHttpRequests()
+				.requestMatchers("/login/login.html", "/template/home.html","/")
+				.permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.httpBasic().realmName("user registration system");
+				
 	}
 }
