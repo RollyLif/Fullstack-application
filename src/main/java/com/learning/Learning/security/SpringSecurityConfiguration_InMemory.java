@@ -35,13 +35,13 @@ public class SpringSecurityConfiguration_InMemory{
 	
 	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
-		return http.csrf().disable()
+		return http.httpBasic()
+				.realmName("user registration system")
+				.csrf().disable()
 				.authorizeHttpRequests()
 				.requestMatchers("/login/login.html", "/template/home.html","/")
 				.permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.httpBasic().realmName("user registration system");
+				.anyRequest().authenticated();
 				
 	}
 }
