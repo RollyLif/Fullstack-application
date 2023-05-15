@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
@@ -37,11 +38,15 @@ public class SpringSecurityConfiguration_InMemory{
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http.httpBasic()
 				.realmName("user registration system")
-				.csrf().disable()
+				.and()
 				.authorizeHttpRequests()
-				.requestMatchers("/login/login.html", "/template/home.html","/")
+				.requestMatchers("/login/login.html", "/template/home.html","/","/h2-console/")
 				.permitAll()
-				.anyRequest().authenticated();
-				
+				.anyRequest().authenticated()
+				.and()
+				.csrf()
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.and()
+				.build();
 	}
 }
