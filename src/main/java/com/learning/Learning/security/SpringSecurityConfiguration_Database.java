@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,7 +30,6 @@ import com.learning.Learning.Service.UserInfoDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SpringSecurityConfiguration_Database {
 	
 	private UserInfoDetailsService userInfoDetailsService;
@@ -39,27 +39,41 @@ public class SpringSecurityConfiguration_Database {
 		this.userInfoDetailsService =userInfoDetailsService;
 	}
 	
-	@Bean
+	
+	EmbeddedDatabase dataSource() {
+		return  new EmbeddedDatabaseBuilder()
+				.setType(EmbeddedDatabaseType.H2)
+				.setName("dashboard")
+				.addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
+				.build();
+	}
+	
+	
 	public UserDetailsService userDetailsService() {
 		return new UserInfoDetailsService();
 	}
 	
 	
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
+	
+	JdbcUserDetailsManager users(DataSource datasource) {
+		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(datasource);
+		return jdbcUserDetailsManager;
 	}
 	
-	@Bean
+	
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable()
-				.authorizeHttpRequests()
-				.requestMatchers("/api/user/**","/h2-console").permitAll()
+		return http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console"))
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/h2-console/**").permitAll()
+						.anyRequest().authenticated()
+				)
+				.headers(headers -> headers.frameOptions().sameOrigin())
+				.formLogin()
 				.and()
-				.formLogin().and().build();
+				.build();
 	}
 	
-	@Bean
+	
 	PasswordEncoder passwordEncorder() {
 		return new BCryptPasswordEncoder();
 	}
