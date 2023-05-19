@@ -17,7 +17,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class SpringSecurityConfiguration_InMemory{
 
-	@Bean
+	//@Bean
 	protected InMemoryUserDetailsManager userDetailsManager() {
 		UserDetails user = User.withDefaultPasswordEncoder()
 				.username("user")
@@ -34,7 +34,7 @@ public class SpringSecurityConfiguration_InMemory{
 		return new InMemoryUserDetailsManager(user,admin);
 	}
 	
-	@Bean
+	//@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http.httpBasic()
 				.realmName("user registration system")

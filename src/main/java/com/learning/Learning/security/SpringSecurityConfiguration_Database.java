@@ -30,6 +30,7 @@ import com.learning.Learning.Service.UserInfoDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SpringSecurityConfiguration_Database {
 	
 	private UserInfoDetailsService userInfoDetailsService;
@@ -54,13 +55,13 @@ public class SpringSecurityConfiguration_Database {
 	}
 	
 	
-	
-	JdbcUserDetailsManager users(DataSource datasource) {
-		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(datasource);
+	@Bean
+	JdbcUserDetailsManager users(DataSource dataSource) {
+		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 		return jdbcUserDetailsManager;
 	}
 	
-	
+	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console"))
 				.authorizeHttpRequests(auth -> auth
