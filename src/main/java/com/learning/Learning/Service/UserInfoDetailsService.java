@@ -1,12 +1,15 @@
 package com.learning.Learning.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,7 +40,7 @@ public class UserInfoDetailsService implements UserDetailsService{
 
 	private Collection<GrantedAuthority> getAuthorities(UserInfo user){
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities = AuthorityUtils.createAuthorityList(user.getRole());
+		authorities = Arrays.stream(user.getRole().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 		return authorities;
 	}
 

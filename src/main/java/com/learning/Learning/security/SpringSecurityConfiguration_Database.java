@@ -40,7 +40,7 @@ public class SpringSecurityConfiguration_Database {
 		this.userInfoDetailsService =userInfoDetailsService;
 	}
 	
-	
+	@Bean
 	EmbeddedDatabase dataSource() {
 		return  new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.H2)
@@ -49,7 +49,7 @@ public class SpringSecurityConfiguration_Database {
 				.build();
 	}
 	
-	
+	@Bean
 	public UserDetailsService userDetailsService() {
 		return new UserInfoDetailsService();
 	}
@@ -59,19 +59,6 @@ public class SpringSecurityConfiguration_Database {
 	JdbcUserDetailsManager users(DataSource dataSource) {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 		return jdbcUserDetailsManager;
-	}
-	
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console"))
-				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/h2-console/**").permitAll()
-						.anyRequest().authenticated()
-				)
-				.headers(headers -> headers.frameOptions().sameOrigin())
-				.formLogin()
-				.and()
-				.build();
 	}
 	
 	
