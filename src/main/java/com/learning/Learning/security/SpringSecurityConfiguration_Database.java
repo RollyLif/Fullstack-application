@@ -40,7 +40,7 @@ public class SpringSecurityConfiguration_Database {
 		this.userInfoDetailsService =userInfoDetailsService;
 	}
 	
-	@Bean
+	
 	EmbeddedDatabase dataSource() {
 		return  new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.H2)
