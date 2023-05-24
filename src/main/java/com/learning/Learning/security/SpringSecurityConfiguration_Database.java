@@ -61,7 +61,7 @@ public class SpringSecurityConfiguration_Database {
 		return jdbcUserDetailsManager;
 	}
 	
-	
+	@Bean
 	PasswordEncoder passwordEncorder() {
 		return new BCryptPasswordEncoder();
 	}

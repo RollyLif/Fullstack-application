@@ -5,26 +5,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@Order(SecurityProperties.BASIC_AUTH_ORDER)
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SpringSecurityConfiguration_InMemory{
 
 	//@Bean
 	protected InMemoryUserDetailsManager userDetailsManager() {
-		UserDetails user = User.withDefaultPasswordEncoder()
-				.username("user")
+		UserDetails user = User.withUsername("user")
 				.password("password")
 				.roles("USER")
 				.build();
 		
-		UserDetails admin = User.withDefaultPasswordEncoder()
-				.username("admin")
+		UserDetails admin = User.withUsername("admin")
 				.password("password")
 				.roles("ADMIN","USER")
 				.build();
@@ -35,10 +36,10 @@ public class SpringSecurityConfiguration_InMemory{
 	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((auth)-> auth
-				.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("USER")
-				.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("USER")
-				.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("USER")
-				.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("user")
+				.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("user")
+				.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("user")
+				.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("admin")
 				.anyRequest()
 				.authenticated()
 			)
