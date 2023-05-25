@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,16 +36,16 @@ public class SpringSecurityConfiguration_InMemory{
 	
 	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((auth)-> auth
-				.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("user")
-				.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("user")
-				.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("user")
-				.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("admin")
-				.anyRequest()
-				.authenticated()
-			)
-				.httpBasic();
-		return http.build();
+		return http
+		.csrf(csrf -> csrf.disable())
+		.authorizeHttpRequests((auth)-> {
+				auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("user");
+				auth.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("user");
+				auth.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("user");
+				auth.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("admin");
+		})
+				.httpBasic(Customizer.withDefaults())
+				.build();
 				
 	}
 }
