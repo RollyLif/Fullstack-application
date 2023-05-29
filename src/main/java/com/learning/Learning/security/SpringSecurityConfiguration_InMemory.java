@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SpringSecurityConfiguration_InMemory{
 
-	//@Bean
+	@Bean
 	protected InMemoryUserDetailsManager userDetailsManager() {
 		UserDetails user = User.withUsername("user")
 				.password("password")
@@ -37,15 +37,15 @@ public class SpringSecurityConfiguration_InMemory{
 	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http
-		.csrf(csrf -> csrf.disable())
-		.authorizeHttpRequests((auth)-> {
-				auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("user");
-				auth.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("user");
-				auth.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("user");
-				auth.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("admin");
-		})
-				.httpBasic(Customizer.withDefaults())
-				.build();
+			.csrf(csrf -> csrf.disable())
+			.authorizeHttpRequests((auth)-> {
+					auth.requestMatchers(HttpMethod.GET, "/api/user/").hasRole("user");
+					auth.requestMatchers(HttpMethod.POST, "/api/user/").hasRole("user");
+					auth.requestMatchers(HttpMethod.PUT, "/api/user/**").hasRole("user");
+					auth.requestMatchers(HttpMethod.DELETE, "/api/user/**").hasRole("admin");
+			})
+					.httpBasic(Customizer.withDefaults())
+					.build();
 				
 	}
 }

@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -28,11 +29,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.learning.Learning.Service.UserInfoDetailsService;
 
-@Configuration
+/*@Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity */
 public class SpringSecurityConfiguration_Database {
 	
+	@Autowired
 	private UserInfoDetailsService userInfoDetailsService;
 	
 	@Autowired
@@ -49,20 +51,34 @@ public class SpringSecurityConfiguration_Database {
 				.build();
 	}
 	
-	@Bean
+	
 	public UserDetailsService userDetailsService() {
 		return new UserInfoDetailsService();
 	}
 	
 	
-	@Bean
+	
 	JdbcUserDetailsManager users(DataSource dataSource) {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 		return jdbcUserDetailsManager;
 	}
 	
-	@Bean
+	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
+		return http
+				.csrf()
+				.disable()
+				.authorizeHttpRequests()
+				.requestMatchers("api/user/**")
+				.authenticated()
+				.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.build();
+	}
+	
 	PasswordEncoder passwordEncorder() {
 		return new BCryptPasswordEncoder();
 	}
 }
+  
