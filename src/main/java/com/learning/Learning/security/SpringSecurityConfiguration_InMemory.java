@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SpringSecurityConfiguration_InMemory{
 
-	@Bean
+	
 	protected InMemoryUserDetailsManager userDetailsManager() {
 		UserDetails user = User.withUsername("user")
 				.password("password")
@@ -34,7 +34,7 @@ public class SpringSecurityConfiguration_InMemory{
 		return new InMemoryUserDetailsManager(user,admin);
 	}
 	
-	@Bean
+	
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http
 			.csrf(csrf -> csrf.disable())
