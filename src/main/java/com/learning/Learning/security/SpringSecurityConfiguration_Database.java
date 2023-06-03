@@ -51,18 +51,15 @@ public class SpringSecurityConfiguration_Database {
 				.build();
 	}
 	
-	@Bean
 	public UserDetailsService userDetailsService() {
 		return new UserInfoDetailsService();
 	}
 	
-	@Bean
 	JdbcUserDetailsManager users(DataSource dataSource) {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 		return jdbcUserDetailsManager;
 	}
 	
-	@Bean
 	protected SecurityFilterChain configure1(HttpSecurity http) throws Exception {
 		return http
 				.csrf()
@@ -77,7 +74,6 @@ public class SpringSecurityConfiguration_Database {
 				.build();
 	}
 	
-	@Bean
 	PasswordEncoder passwordEncorder() {
 		return new BCryptPasswordEncoder();
 	}
