@@ -42,6 +42,9 @@ public class SpringSecurityConfiguration_Database {
 		this.userInfoDetailsService =userInfoDetailsService;
 	}
 	
+	public AuthenticationManager authentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		return (AuthenticationManager) authenticationManagerBuilder.userDetailsService(userInfoDetailsService);
+	}
 	
 	EmbeddedDatabase dataSource() {
 		return  new EmbeddedDatabaseBuilder()
